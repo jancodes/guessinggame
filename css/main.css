@@ -3,15 +3,16 @@ body {
 }
 
 .game {
-	border: 10px dotted black;
-    padding:35px;
+	border: 5px solid black;
+	border-radius: 5px;
+    padding:15px 5px 30px 5px;
     background: #ccffcc;
     background-clip: padding-box;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
 }
 
 .maingame {
 	width:275px;
 	padding:15px;
-	border-radius: 10px;
 	margin:0px auto;
 }
