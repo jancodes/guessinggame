@@ -9,6 +9,10 @@ var winningNumber = generateWinningNumber();
 
 var guessRemaining = 5;
 
+var hintused = false;
+
+var won = false;
+
 
 
 /* **** Guessing Game Functions **** */
@@ -17,7 +21,11 @@ var guessRemaining = 5;
 
 function generateWinningNumber(){
 	// add code here
-	return Math.floor(Math.random() * 100)
+	return getRandomNumber(1, 100);
+}
+
+function getRandomNumber(min, max) {
+	return Math.floor(Math.random() * (max-min) + min);
 }
 
 // Fetch the Players Guess
@@ -26,7 +34,7 @@ function playersGuessSubmission(){
 	// add code here
 	if (guessRemaining == 0) {
 		$('.message').html('You ran out of guesses. Press Restart to start over!');
-	} else {
+	} else if (!isNaN(playersGuess = parseInt($('#playersGuess').val())) && playersGuess >= 1 && playersGuess <= 100) {
 		playersGuess = parseInt($('#playersGuess').val());
 		$('#playersGuess').val('');
 		if (allGuesses.indexOf(playersGuess) == -1) {
@@ -43,6 +51,19 @@ function playersGuessSubmission(){
 
 function lowerOrHigher(){
 	// add code here
+	var condition = Math.abs(playersGuess - winningNumber);
+	if (condition > 10) {
+		condition = "Getting Colder!";
+	} else if (condition <= 5) {
+		condition = "Super hot!";
+	} else {
+		condition = "Getting warmer!";
+	}
+	if (playersGuess > winningNumber) {
+		return "Guess lower! " + condition;
+	} else {
+		return "Guess higher! " + condition;
+	}
 }
 
 // Check if the Player's Guess is the winning number 
@@ -54,7 +75,15 @@ function checkGuess(){
 		$('#guess-count').hide();
 		$('#past-guess').hide();
 		$('h5').hide();
-		$('.message').html('<h3>You win! Click Restart to play again!</h3>');
+		if (hintused) {
+			won = true;
+			$('.message').html('<h3>You win, but you used an hint! Try winning without it!</h3>');
+			$('.game').addClass('won');
+		} else {
+			won = true;
+			$('.message').html('<h3>You win! Click Restart to play again!</h3>');
+			$('.game').addClass('won');
+		}
 		//reset to play again
 	} else {
 		$('#past-guess').show();
@@ -68,7 +97,36 @@ function checkGuess(){
 		guessRemaining--;
 		$('#guess-count').html(guessRemaining + " Guesses Remaining");
 		$('.message').show();
-		$('.message').html('Try again!');
+		if (guessRemaining > 0) {
+			$('.message').html('Try again! ' + lowerOrHigher());
+		} else {
+			won = false;
+			$('.game').addClass('lost');
+			$('.message').html('Wrong guess, press Restart to play again!');
+			$('#hint').hide();
+		}
+		if (guessRemaining == 1) {
+			$('#hint').show();
+		}
+	}
+}
+
+function randomNumber() {
+	var randomArray = [];
+	randomArray.push(getRandomNumber(1, 100));
+	randomArray.push(getRandomNumber(1, 100));
+	randomArray.push(getRandomNumber(1, 100));
+	return randomArray;
+}
+function shuffle(array) {
+	var counter = array.length 
+	while (counter > 0) {
+		randomIndex = Math.floor(Math.random() * array.length)
+		counter--
+
+		var temp = array[counter];
+		array[counter] = array[randomIndex];
+		array[randomIndex] = temp;	
 	}
 }
 
@@ -76,12 +134,25 @@ function checkGuess(){
 
 function provideHint(){
 	// add code here
+	$('#hide').hide();
+	hintused = true;
+	var hint1, hint2, hint3 = randomNumber();
+	var randomArray = randomNumber();
+	randomArray.push(winningNumber);
+	shuffle(randomArray);
+	$('.message').html('One of these are the winning numbers: ' + randomArray.join(', '));
 }
 
 // Allow the "Player" to Play Again
 
 function playAgain(){
 	// add code here
+	if (won) {
+		$('.game').removeClass('won');
+	} else {
+		$('.game').removeClass('lost');
+	}
+	winningNumber = generateWinningNumber();
 	guessRemaining = 5;
 	allGuesses = [];
 	$('#guess-count').html(guessRemaining + " Guesses Remaining");
@@ -93,3 +164,13 @@ function playAgain(){
 
 
 /* **** Event Listeners/Handlers ****  */
+$(document).ready(function() {
+	$('#hint').on("click", provideHint);
+});
+
+$(document).keypress(function(e) {
+	if (e.which == 13) {
+		e.preventDefault();
+		playersGuessSubmission();
+	};
+});

@@ -13,6 +13,14 @@ body {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
 }
 
+.won {
+	background: #ccffcc url(../img/woohoo.gif) center left / contain;
+}
+
+.lost {
+	background: #ccffcc url(../img/loser.png) no-repeat center left / contain;
+}
+
 .maingame {
 	width:275px;
 	padding:15px;
@@ -24,5 +32,9 @@ body {
 }
 
 p .message {
+	display:none;
+}
+
+#hint {
 	display:none;
 }

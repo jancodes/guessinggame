@@ -11,6 +11,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/guessingGame.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -27,13 +28,13 @@
              <input type="text" id='playersGuess' placeholder='1-100' class='form-control input'><br>
              <button type='button' class="btn btn-primary" onclick="playersGuessSubmission()">Submit</button>
              <button type='button' id='restart' class="btn btn-danger" onclick="playAgain()">Restart</button>
+             <button type='button' id='hint' class="btn btn-success">Hint</button>
             </div>
-           <h3 id='guess-count'> 5 Guesses Remaining </h3>
+           <h3 id='guess-count'> You have 5 Guesses! </h3>
            <p class="message"></p>
            <h4 id='past-guess'> Your past guesses: </h4>
 </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
   </body>
