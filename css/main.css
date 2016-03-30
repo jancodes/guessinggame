@@ -22,3 +22,7 @@ body {
 #past-guess {
 	display: none;
 }
+
+p .message {
+	display:none;
+}
